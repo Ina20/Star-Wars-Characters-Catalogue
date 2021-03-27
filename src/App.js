@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Main from './Main.js';
 
 const App = () => {
   return (
     <div>
-      <h1>Hello !!</h1>
+      <header>
+        <h1>Star Wars</h1>
+        <p>Characters Catalogue</p>
+      </header>
+      <Main />
     </div>
   );
 };
