@@ -56,7 +56,31 @@ header p {
   width: 100px;
 }
 .detailBox {
-  background: lightyellow;
+  //background: lightyellow;
+  display: flex;
+  //flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  margin: auto;
+  border-top: 1px solid #d9c3b0;
+  width: 90%;
+}
+.detail-wrapper {
+  //background: lightblue;
+  padding: 10px;
+}
+.detail-wrapper p {
+  margin: 0;
+}
+.detail-wrapper p:first-of-type {
+  font-size: 14px;
+  color: hsla(0, 0%, 0%, 0.8);
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 .character p {
   font-size: 20px;

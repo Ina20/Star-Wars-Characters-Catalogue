@@ -28,8 +28,6 @@ const Main = () => {
     setCharacterPage(data.next);
   }
 
-  console.log(character);
-
   const loopWithSlice = (start, end) => {
     console.log(characterToShow);
     const slicedPosts = character.slice(start, end);

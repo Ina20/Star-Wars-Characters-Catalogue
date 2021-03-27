@@ -2,6 +2,7 @@ import React from 'react';
 import Character from './Character.js'
 
 const Results = ({ character }) => {
+
   return (
     <div className="character-sheet">
       {!character.length ? (
@@ -15,6 +16,7 @@ const Results = ({ character }) => {
               gender = {character.gender}
               birthYear = {character.birth_year}
               height = {character.height}
+              films = {character.films}
             />
           );
         })

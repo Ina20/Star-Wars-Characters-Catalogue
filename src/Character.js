@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Details from './Details.js'
 
-const Character = ({ name, gender, birthYear, height }) => {
+const Character = ({ name, gender, birthYear, height, films }) => {
   const [showDetails, setShowDetails] = useState(false);
-  const toggleDetails = () => {
+  const toggleDetails = ({ films }) => {
     showDetails ? setShowDetails(false) : setShowDetails(true);
   }
+
   return (
     <div className="character">
       <div className="wrapper">
@@ -22,17 +24,10 @@ const Character = ({ name, gender, birthYear, height }) => {
         </div>
       </div>
       {
-        showDetails ? <Details /> : null
+        showDetails ? <Details height={height} films={films}/> : null
       }
     </div>
   )
 }
-
-const Details = () => (
-  <div className="detailBox">
-    <p>aaa</p>
-    <p>aaa</p>
-  </div>
-)
 
 export default Character;
