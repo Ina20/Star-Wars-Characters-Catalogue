@@ -100,9 +100,28 @@ ul {
   justify-content: space-around;
   //background: pink;
 }
-.fa-info:hover {
+.fa-info:hover, .details-icon:hover {
   cursor: pointer;
   color: #1c86b0;
+}
+.fa-info {
+  margin: 0 10px;
+}
+.details-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  padding: 0 10px 0 0;
+  width: 20px;
+  height: 30px;
+  border: 2px solid #1c86b0;
+}
+.details-icon-after {
+  width: 100px;
+}
+.details-icon p {
+  font-size: 18px;
 }
 button {
   background: #166b8c;

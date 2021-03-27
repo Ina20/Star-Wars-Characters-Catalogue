@@ -20,7 +20,17 @@ const Character = ({ name, gender, birthYear, height, films }) => {
           <p>{birthYear}</p>
         </div>
         <div className="box">
-          <i className="fa fa-info fa-lg" onClick={toggleDetails}></i>
+          {
+            showDetails ? (
+              <div className="details-icon details-icon-after" onClick={toggleDetails}>
+                <i className="fa fa-info fa-lg" ></i>
+                <p>Details</p>
+              </div>
+            ) : (
+             <i className="fa fa-info fa-lg" onClick={toggleDetails}></i>
+           )
+          }
+
         </div>
       </div>
       {
