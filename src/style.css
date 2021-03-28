@@ -36,7 +36,7 @@ header p {
   justify-content: space-around;
   width: 90%;
   margin-bottom: 20px;
-  margin-top: 10px;
+  margin-top: -30px;
 }
 .character-sheet {
   width: 100%;
@@ -137,4 +137,26 @@ button {
 button:hover {
   cursor: pointer;
   background: #1c86b0;
+}
+select {
+  height: 45px;
+  margin: 0 0 0 35px;
+  border: none;
+  font-family: 'Prompt', sans-serif;
+  font-size: 16px;
+}
+select:hover {
+  cursor: pointer;
+}
+label {
+  position: relative;
+  top: -55px;
+  background: #fff;
+  padding: 0 0 0 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 14px;
+  color: hsla(0, 0%, 0%, 0.8);
 }

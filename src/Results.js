@@ -11,7 +11,7 @@ const Results = ({ character }) => {
         character.map((character, i) => {
           return (
             <Character
-              key = {i}
+              key = {character.name}
               name = {character.name}
               gender = {character.gender}
               birthYear = {character.birth_year}
