@@ -4,7 +4,7 @@ import Results from './Results.js';
 let list = [];
 let characterData = [];
 let filmArray = [];
-let isFilmSet = false;
+let isSearchSet = false;
 
 const Main = () => {
   const [characterPage, setCharacterPage] = useState('https://swapi.dev/api/people/?page=2');
@@ -12,8 +12,10 @@ const Main = () => {
   const [characterToShow, setCharacterToShow] = useState([]);
   const [films, setFilms] = useState([]);
   const [film, setFilm] = useState("");
+  const [name, setName] = useState("");
   const limit = 5;
   const ref = useRef(10);
+  const isFirstRun = useRef(true);
 
   async function requestCharacters() {
     let res = await fetch('https://swapi.dev/api/people/?page=1');
@@ -22,16 +24,16 @@ const Main = () => {
     setCharacter(characterData);
     list = characterData.slice(0, 10);
     setCharacterToShow(list);
-    //setCharacterPage(data.next);
     requestMoreCharacters();
   }
   async function requestMoreCharacters() {
-    let res = await fetch(characterPage);
-    let data = await res.json();
-    characterData = characterData.concat(data.results);
-    setCharacter(characterData);
-    setCharacterPage(data.next);
-    console.log(characterData);
+    if(characterPage){
+      let res = await fetch(characterPage);
+      let data = await res.json();
+      characterData = characterData.concat(data.results);
+      setCharacter(characterData);
+      setCharacterPage(data.next);
+    }
   }
   async function requestFilms() {
     let res = await fetch('https://swapi.dev/api/films/');
@@ -41,24 +43,29 @@ const Main = () => {
   async function requestFilmCharacters(filmCharacterPage) {
     let res = await fetch(filmCharacterPage);
     let data = await res.json();
-    console.log(data);
     characterData = characterData.concat(data);
     setCharacter(characterData);
     list = characterData.slice(0, 10);
     setCharacterToShow(list);
-    console.log('eee');
-    console.log(characterData);
+  }
+
+
+  async function requestSearchCharacters(searchCharacterPage) {
+    let res = await fetch(searchCharacterPage);
+    let data = await res.json();
+    characterData = characterData.concat(data.results);
+    setCharacter(characterData);
+    list = characterData.slice(0, 10);
+    setCharacterToShow(list);
+    if(data.next){
+      requestSearchCharacters(data.next);
+    }
   }
 
   const loopWithSlice = (start, end) => {
-    console.log(characterToShow);
     const slicedPosts = character.slice(start, end);
     list = list.concat(slicedPosts);
     setCharacterToShow(list);
-  }
-
-  const loadCharacters = () => {
-    console.log({film})
   }
 
   useEffect(() => {
@@ -67,58 +74,82 @@ const Main = () => {
   }, [])
 
   useEffect(() => {
-    console.log('dddddd');
-    console.log(character);
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
     list = [];
     characterData = [];
     ref.current = 10;
     setCharacterPage('https://swapi.dev/api/people/?page=2');
-    console.log('ccc');
-    console.log(film.split(','));
     filmArray = film.split(',')
     filmArray.map((character) => {
-      console.log('ddd');
-      console.log(character);
-      if(character == "All" || character.length == 0){
-        isFilmSet = false;
-
+      if(character == "All" || character.length == 0 ){
+        isSearchSet = false;
         requestCharacters();
       }else{
-        isFilmSet = true;
+        isSearchSet = true;
         requestFilmCharacters(character);
       }
     })
   }, [film, setFilm])
 
+  useEffect(() => {
+    list = [];
+    characterData = [];
+    ref.current = 10;
+    setCharacterPage('https://swapi.dev/api/people/?page=2');
+    if(name){
+      let searchUrl = 'https://swapi.dev/api/people/?search=' + name;
+      isSearchSet = true;
+      requestSearchCharacters(searchUrl);
+    }else {
+      isSearchSet = false;
+      requestCharacters();
+    }
+  }, [name, setName])
+
   const loadMore = () => {
-    console.log("ref current " + ref.current);
     loopWithSlice(ref.current, ref.current + limit);
-    console.log(isFilmSet);
     ref.current += limit;
-    if(!isFilmSet){
-      console.log("im here");
-      console.log('page ' + characterPage);
+    if(!isSearchSet){
       requestMoreCharacters();
     }
-    console.log(isFilmSet);
-
   }
 
   return (
     <div className="main">
-    <label htmlFor="film">
-      Film
-      <select
-        id="film"
-        value={film}
-        onChange={(e) => setFilm(e.target.value)}
-        onBlur={(e) => setFilm(e.target.value)}>
-        <option>All</option>
-          {films.map(film => (
-            <option key={film.title} value={film.characters}>{film.title}</option>
-          ))}
-      </select>
-    </label>
+      <div className="search">
+        <label htmlFor="film">
+          Select a film
+          <select
+            id="film"
+            value={film}
+            onChange={(e) => setFilm(e.target.value)}
+            onBlur={(e) => setFilm(e.target.value)}>
+            <option>All</option>
+              {films.map(film => (
+                <option key={film.title} value={film.characters}>{film.title}</option>
+              ))}
+          </select>
+          <i className="fa fa-chevron-down"></i>
+        </label>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+        }}>
+          <label htmlFor="name">
+            or search by name
+            <input
+              id="name"
+              value={name}
+              placeholder="Type name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <span className="input-border"></span>
+            <i className="fa fa-search fa-lg"></i>
+          </label>
+        </form>
+      </div>
       <div className="list-header">
         <div className="box">
           <h2>Name</h2>
