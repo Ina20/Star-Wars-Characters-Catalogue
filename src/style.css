@@ -103,6 +103,7 @@ ul {
 .fa-info:hover, .details-icon:hover {
   cursor: pointer;
   color: #1c86b0;
+  width: 100px;
 }
 .fa-info {
   margin: 0 10px;
@@ -113,7 +114,7 @@ ul {
   align-items: center;
   border-radius: 5px;
   padding: 0 10px 0 0;
-  width: 20px;
+  width: 0;
   height: 30px;
   border: 2px solid #1c86b0;
 }
@@ -177,7 +178,7 @@ input {
   background: #1c86b0;
   position: absolute;
   bottom: 5px;
-  transition: all ease-in-out 0.5s;
+  transition: all ease-in-out 0.3s;
 }
 input:focus + .input-border {
   width: 70%;
@@ -187,7 +188,7 @@ input:focus + .input-border {
   bottom: 80px;
   right: 40px;
   transform: rotateX(0deg);
-  transition: transform 1s;
+  transition: transform 0.3s;
 }
 select:focus + .fa-chevron-down {
   transform: rotateX(-180deg);
@@ -196,8 +197,13 @@ select:focus + .fa-chevron-down {
   position: absolute;
   bottom: 20px;
   right: 40px;
+  transition: all ease-in-out 0.3s;
 }
-.fa-search:hover {
+form label:last-of-type:hover > .fa-search {
+  cursor: pointer;
+  color: #1c86b0
+}
+input:focus ~ .fa-search {
   cursor: pointer;
   color: #1c86b0
 }
@@ -236,4 +242,57 @@ form label:last-of-type:after {
   bottom: 65px;
   width: 70%;
   border-bottom: 1px solid #d9c3b0;
+}
+
+@media only screen and (min-width: 750px) {
+  .main {
+    width: 85%;
+  }
+  .search {
+    width: 60%;
+  }
+}
+
+@media only screen and (min-width: 1250px) {
+  .main {
+    //background: lightblue;
+    width: 75%;
+  }
+  .list-header {
+    margin-top: -50px;
+  }
+  .search {
+    width: 70%;
+    flex-direction: row;
+    top: -80px;
+  }
+  label:first-of-type {
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 0;
+  }
+  form label:last-of-type {
+    border-top-left-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 0;
+    padding-bottom: 7px;
+  }
+  form label:last-of-type:after {
+    bottom: 10px;
+    left: 50%;;
+    height: 70%;
+    border-left: 1px solid #d9c3b0;
+    border-bottom: 0;
+  }
+  .fa-chevron-down {
+    position: absolute;
+    bottom: 20px;
+    left: 45%;
+    transform: rotateX(0deg);
+    transition: transform 1s;
+  }
+  input:focus + .input-border {
+    width: 40%;
+  }
 }
