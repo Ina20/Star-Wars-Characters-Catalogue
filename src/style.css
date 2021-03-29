@@ -46,7 +46,6 @@ header p {
   align-items: center;
 }
 .box {
-  //background: lightgreen;
   width: 150px;
   text-align: center;
   display: flex;
@@ -57,9 +56,7 @@ header p {
   width: 100px;
 }
 .detailBox {
-  //background: lightyellow;
   display: flex;
-  //flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
   margin: auto;
@@ -67,7 +64,6 @@ header p {
   width: 90%;
 }
 .detail-wrapper {
-  //background: lightblue;
   padding: 10px;
 }
 .detail-wrapper p {
@@ -98,15 +94,16 @@ ul {
 .wrapper {
   display: flex;
   justify-content: space-around;
-  //background: pink;
 }
 .fa-info:hover, .details-icon:hover {
   cursor: pointer;
   color: #1c86b0;
   width: 100px;
+  transition: color 0.3s;
 }
 .fa-info {
   margin: 0 10px;
+  transition: color 0.3s;
 }
 .details-icon {
   display: flex;
@@ -117,6 +114,7 @@ ul {
   width: 0;
   height: 30px;
   border: 2px solid #1c86b0;
+  transition: color 0.3s;
 }
 .details-icon-after {
   width: 100px;
@@ -134,10 +132,12 @@ button {
   padding: 10px;
   margin-bottom: 30px;
   width: 150px;
+  transition: background 0.3s;
 }
 button:hover {
   cursor: pointer;
   background: #1c86b0;
+  transition: background 0.3s;
 }
 .search {
   display: flex;
@@ -255,7 +255,6 @@ form label:last-of-type:after {
 
 @media only screen and (min-width: 1250px) {
   .main {
-    //background: lightblue;
     width: 75%;
   }
   .list-header {
