@@ -16,6 +16,8 @@ const Main = () => {
   const limit = 5;
   const ref = useRef(10);
   const isFirstRun = useRef(true);
+  //const isLoading = useRef(true);
+  const [loading, setLoading] = useState('true');
 
   async function requestCharacters() {
     let res = await fetch('https://swapi.dev/api/people/?page=1');
@@ -25,6 +27,7 @@ const Main = () => {
     list = characterData.slice(0, 10);
     setCharacterToShow(list);
     requestMoreCharacters();
+    setLoading(false);
   }
   async function requestMoreCharacters() {
     if(characterPage){
@@ -47,6 +50,7 @@ const Main = () => {
     setCharacter(characterData);
     list = characterData.slice(0, 10);
     setCharacterToShow(list);
+    setLoading(false);
   }
 
 
@@ -57,9 +61,15 @@ const Main = () => {
     setCharacter(characterData);
     list = characterData.slice(0, 10);
     setCharacterToShow(list);
+    //isLoading.current = false;
+    console.log(data.next);
     if(data.next){
       requestSearchCharacters(data.next);
+    }else if(data.next == null){
+      setLoading(false);
     }
+
+    console.log("loading after after: " + loading);
   }
 
   const loopWithSlice = (start, end) => {
@@ -85,9 +95,11 @@ const Main = () => {
     filmArray = film.split(',')
     filmArray.map((character) => {
       if(character == "All" || character.length == 0 ){
+        setLoading(true);
         isSearchSet = false;
         requestCharacters();
       }else{
+        setLoading(true);
         isSearchSet = true;
         requestFilmCharacters(character);
       }
@@ -95,18 +107,22 @@ const Main = () => {
   }, [film, setFilm])
 
   useEffect(() => {
+    console.log("loading before: " + loading);
     list = [];
     characterData = [];
     ref.current = 10;
     setCharacterPage('https://swapi.dev/api/people/?page=2');
     if(name){
       let searchUrl = 'https://swapi.dev/api/people/?search=' + name;
+      setLoading(true);
       isSearchSet = true;
       requestSearchCharacters(searchUrl);
     }else {
+      setLoading(true);
       isSearchSet = false;
       requestCharacters();
     }
+    console.log("loading after: " + loading);
   }, [name, setName])
 
   const loadMore = () => {
@@ -162,8 +178,17 @@ const Main = () => {
         </div>
         <div className="box"></div>
       </div>
-      <Results character={ characterToShow } />
-      <button onClick={loadMore}>Load more</button>
+      {
+        loading ? (
+          <img src={require('./images/bb8.gif')} alt="loading" className="loading-icon"/>
+        ) : (
+          <div className="result-wrapper">
+            <Results character={ characterToShow } />
+            <button onClick={loadMore}>Load more</button>
+          </div>
+        )
+      }
+
     </div>
   );
 };
