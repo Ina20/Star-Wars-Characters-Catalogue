@@ -16,8 +16,9 @@ const Main = () => {
   const limit = 5;
   const ref = useRef(10);
   const isFirstRun = useRef(true);
-  //const isLoading = useRef(true);
+  const isMore = useRef(true);
   const [loading, setLoading] = useState('true');
+
 
   async function requestCharacters() {
     let res = await fetch('https://swapi.dev/api/people/?page=1');
@@ -62,14 +63,11 @@ const Main = () => {
     list = characterData.slice(0, 10);
     setCharacterToShow(list);
     //isLoading.current = false;
-    console.log(data.next);
     if(data.next){
       requestSearchCharacters(data.next);
     }else if(data.next == null){
       setLoading(false);
     }
-
-    console.log("loading after after: " + loading);
   }
 
   const loopWithSlice = (start, end) => {
@@ -91,6 +89,7 @@ const Main = () => {
     list = [];
     characterData = [];
     ref.current = 10;
+    isMore.current = true;
     setCharacterPage('https://swapi.dev/api/people/?page=2');
     filmArray = film.split(',')
     filmArray.map((character) => {
@@ -107,10 +106,10 @@ const Main = () => {
   }, [film, setFilm])
 
   useEffect(() => {
-    console.log("loading before: " + loading);
     list = [];
     characterData = [];
     ref.current = 10;
+    isMore.current = true;
     setCharacterPage('https://swapi.dev/api/people/?page=2');
     if(name){
       let searchUrl = 'https://swapi.dev/api/people/?search=' + name;
@@ -122,7 +121,6 @@ const Main = () => {
       isSearchSet = false;
       requestCharacters();
     }
-    console.log("loading after: " + loading);
   }, [name, setName])
 
   const loadMore = () => {
@@ -130,6 +128,10 @@ const Main = () => {
     ref.current += limit;
     if(!isSearchSet){
       requestMoreCharacters();
+    }
+    if(ref.current > character.length){
+      console.log('no more no more');
+      isMore.current = false;
     }
   }
 
@@ -160,6 +162,7 @@ const Main = () => {
               value={name}
               placeholder="Type name"
               onChange={(e) => setName(e.target.value)}
+              disabled={loading}
             />
             <span className="input-border"></span>
             <i className="fa fa-search fa-lg"></i>
@@ -184,7 +187,9 @@ const Main = () => {
         ) : (
           <div className="result-wrapper">
             <Results character={ characterToShow } />
-            <button onClick={loadMore}>Load more</button>
+            {
+              isMore.current ? <button onClick={loadMore}>Load more</button> : <p className="no-more">No more characters</p>
+            }
           </div>
         )
       }

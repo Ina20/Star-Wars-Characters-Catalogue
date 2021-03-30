@@ -38,6 +38,10 @@ header p {
   flex-direction: column;
   align-items: center;
 }
+.no-more {
+  padding-bottom: 10px;
+  margin-top: 0;
+}
 .loading-icon {
   padding-bottom: 20px;
 }
@@ -187,10 +191,17 @@ input {
   background: #1c86b0;
   position: absolute;
   bottom: 5px;
-  transition: all ease-in-out 0.3s;
+  transition: width ease-in-out 0.3s;
 }
 input:focus + .input-border {
   width: 70%;
+}
+input:disabled {
+  background: none;
+}
+input:disabled + .input-border {
+  background: rgba(0, 0, 0, 0.3);
+  transition: all ease-in-out 0.001s;
 }
 .fa-chevron-down {
   position: absolute;
@@ -295,7 +306,7 @@ form label:last-of-type:after {
   }
   .fa-chevron-down {
     position: absolute;
-    bottom: 20px;
+    bottom: 17px;
     left: 45%;
     transform: rotateX(0deg);
     transition: transform 1s;
